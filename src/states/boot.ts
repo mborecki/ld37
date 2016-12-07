@@ -1,23 +1,13 @@
-import * as Phaser from 'phaser'
-import * as WebFont from 'webfontloader'
+import * as Phaser from 'phaser';
 
 export class BootState extends Phaser.State {
   stage: Phaser.Stage
-  fontsReady: boolean
 
   init () {
     this.stage.backgroundColor = '#EDEEC9'
-    this.fontsReady = false
-    this.fontsLoaded = this.fontsLoaded.bind(this)
   }
 
   preload () {
-    WebFont.load({
-      google: {
-        families: ['Nunito']
-      },
-      active: this.fontsLoaded
-    })
 
     let text = this.add.text(this.world.centerX, this.world.centerY, 'loading fonts', { font: '16px Arial', fill: '#dddddd', align: 'center' })
     text.anchor.setTo(0.5, 0.5)
@@ -27,13 +17,6 @@ export class BootState extends Phaser.State {
   }
 
   render () {
-    if (this.fontsReady) {
-      this.game.state.start('Splash')
-    }
+    this.game.state.start('Splash')
   }
-
-  fontsLoaded () {
-    this.fontsReady = true
-  }
-
 }

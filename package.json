@@ -42,8 +42,5 @@
     "typings": "^0.7.9",
     "webpack": "^1.7.3",
     "webpack-dev-server": "^1.7.0"
-  },
-  "dependencies": {
-    "webfontloader": "^1.6.24"
   }
 }

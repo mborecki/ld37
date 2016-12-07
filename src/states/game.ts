@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser'
-import {Mushroom} from '../sprites/mushroom.ts'
-import {setResponsiveWidth} from '../utils.ts'
+import {Mushroom} from '../sprites/mushroom'
+import {setResponsiveWidth} from '../utils'
 
 export class GameState extends Phaser.State {
   mushroom: Mushroom
@@ -10,7 +10,7 @@ export class GameState extends Phaser.State {
 
   create () {
     let banner = this.add.text(this.game.world.centerX, this.game.height - 30, 'Phaser + ES6 + Webpack', {})
-    banner.font = 'Nunito'
+    banner.font = 'Arial'
     banner.fontSize = 40
     banner.fill = '#77BFA3'
     banner.anchor.setTo(0.5)

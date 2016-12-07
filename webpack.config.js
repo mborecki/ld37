@@ -20,6 +20,9 @@ module.exports = {
     publicPath: './dist/',
     filename: 'bundle.js'
   },
+  resolve: {
+    extensions: ['.ts', '.js', '']
+  },
   watch: true,
   plugins: [
     definePlugin,
