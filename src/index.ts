@@ -1,4 +1,5 @@
 /// <reference path="../lib/phaser.d.ts"/>
+/// <reference path="../typings/index.d.ts"/>
 import * as Phaser from 'phaser'
 
 import {BootState} from './states/boot'

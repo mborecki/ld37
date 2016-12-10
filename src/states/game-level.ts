@@ -2,9 +2,12 @@ import * as Phaser from 'phaser'
 import LevelData from '../types/level-data';
 import CFG from '../config';
 import Player from '../sprites/player';
+import AI from '../ai/ai';
+
+import StupidElf from '../sprites/enemies/stupid-elf';
 
 enum ControlState {
-    NONE
+    NONE,
     PLAYER
 }
 
@@ -49,6 +52,8 @@ export class GameLevelState extends Phaser.State {
         this.placePlayer();
         this.placeCastle();
         this.placeSpawns();
+
+        this.addDebugElf();
 
         this.startLevel();
     }
@@ -104,8 +109,8 @@ export class GameLevelState extends Phaser.State {
     placePlayer () {
         this.player = new Player({
             game: this.game,
-            x: this.data.playerStart.x,
-            y: this.data.playerStart.y
+            x: this.data.playerStart.x * CFG.TILE_SIZE,
+            y: this.data.playerStart.y * CFG.TILE_SIZE
         });
 
         this.game.add.existing(this.player);
@@ -113,11 +118,11 @@ export class GameLevelState extends Phaser.State {
         this.game.physics.arcade.enable(this.player);
 
         this.player.body.collideWorldBounds = true;
-
     }
 
     placeCastle () {
         this.game.add.sprite(this.data.castle.x * CFG.TILE_SIZE, this.data.castle.y * CFG.TILE_SIZE, 'castle');
+        AI.setCastle([this.data.castle.x, this.data.castle.y])
     }
 
     placeSpawns () {console.error('TODO!')}
@@ -156,6 +161,18 @@ export class GameLevelState extends Phaser.State {
 
         // this.game.physics.arcade.moveToXY(this.player, this.player.x + moveVector[0], this.player.y + moveVector[1]);
         this.player.move(moveVector);
+    }
+
+    addDebugElf() {
+        let elf = new StupidElf({
+            game: this.game,
+            x: 19 * CFG.TILE_SIZE,
+            y: 9 * CFG.TILE_SIZE
+        });
+
+        this.game.physics.arcade.enable(elf);
+
+        this.game.add.existing(elf);
     }
 
 }

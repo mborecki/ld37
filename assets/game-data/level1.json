@@ -3,11 +3,11 @@
     "width": 20,
     "height": 10,
     "playerStart": {
-        "x": 0,
-        "y": 0
+        "x": 10,
+        "y": 5
     },
     "castle": {
-        "x": 10,
+        "x": 1,
         "y": 5
     },
     "spawns": [

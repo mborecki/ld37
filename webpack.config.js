@@ -48,6 +48,7 @@ module.exports = {
     fs: "empty"
   },
   externals: {
-    'phaser': 'Phaser'
+    'phaser': 'Phaser',
+    'lodash': 'Lodash'
   }
 };
