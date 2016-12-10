@@ -30,6 +30,7 @@ export class SplashState extends Phaser.State {
     this.load.spritesheet('wallTile', 'assets/images/level/wall.png', CFG.TILE_SIZE, CFG.TILE_SIZE);
     this.load.spritesheet('castle', 'assets/images/level/flag.png', CFG.TILE_SIZE, CFG.TILE_SIZE);
     this.load.spritesheet('player', 'assets/images/level/player.png', CFG.TILE_SIZE, CFG.TILE_SIZE);
+    this.load.spritesheet('block', 'assets/images/level/block.png', CFG.TILE_SIZE, CFG.TILE_SIZE);
   }
 
   create () {

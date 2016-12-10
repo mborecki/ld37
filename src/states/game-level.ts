@@ -3,12 +3,20 @@ import LevelData from '../types/level-data';
 import CFG from '../config';
 import Player from '../sprites/player';
 
+enum ControlState {
+    NONE
+    PLAYER
+}
+
 export class GameLevelState extends Phaser.State {
     data: LevelData;
     floor: Phaser.Group;
     walls: Phaser.Group;
     castle: Phaser.Sprite;
     player: Player;
+    objects: Phaser.Group;
+
+    controlState: ControlState = ControlState.NONE;
 
     init (levelData: LevelData) {
         this.data = levelData;
@@ -23,6 +31,10 @@ export class GameLevelState extends Phaser.State {
     }
 
     render () {}
+
+    update () {
+        this.readInput();
+    }
 
     buildLevel () {
         this.buildFloor();
@@ -59,7 +71,17 @@ export class GameLevelState extends Phaser.State {
         }
     }
 
-    buildLevelObjects () {console.error('TODO!')}
+    buildLevelObjects () {
+        this.objects = this.game.add.group();
+
+        this.data.objects.forEach((o) => {
+            switch (o.type) {
+                case 'block':
+                    this.objects.create(o.x * CFG.TILE_SIZE, o.y * CFG.TILE_SIZE, 'block');
+                    break;
+            }
+        });
+    }
 
     placePlayer () {
         this.player = new Player({
@@ -77,5 +99,35 @@ export class GameLevelState extends Phaser.State {
 
     placeSpawns () {console.error('TODO!')}
 
-    startLevel () {console.error('TODO!')}
+    startLevel () {
+        this.controlState = ControlState.PLAYER;
+    }
+
+    readInput () {
+        switch (this.controlState) {
+            case ControlState.PLAYER:
+                this.readInputPlayerState();
+        }
+    }
+
+    readInputPlayerState () {
+        let cursors = this.game.input.keyboard.createCursorKeys();
+
+        if (cursors.down.isDown) {
+            this.player.move(0, 1 * CFG.PLAYER_SPEED * this.time.elapsed / 1000);
+        }
+
+        if (cursors.up.isDown) {
+            this.player.move(0, -1 * CFG.PLAYER_SPEED * this.time.elapsed / 1000);
+        }
+
+        if (cursors.left.isDown) {
+            this.player.move(-1 * CFG.PLAYER_SPEED * this.time.elapsed / 1000, 0);
+        }
+
+        if (cursors.right.isDown) {
+            this.player.move(1 * CFG.PLAYER_SPEED * this.time.elapsed / 1000, 0);
+        }
+    }
+
 }
