@@ -13,7 +13,6 @@ export default class Player extends Phaser.Sprite {
     }
 
     move ([x,y]: [number, number]) {
-        console.log('Player.move', x, y)
         this.body.velocity.setTo(x * CFG.PLAYER_SPEED,y * CFG.PLAYER_SPEED);
     }
 }

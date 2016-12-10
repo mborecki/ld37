@@ -37,6 +37,7 @@ export class GameLevelState extends Phaser.State {
     update () {
 
         this.game.physics.arcade.collide(this.player, this.objects);
+        this.game.physics.arcade.collide(this.player, this.walls);
 
         this.readInput();
     }
@@ -74,6 +75,12 @@ export class GameLevelState extends Phaser.State {
             this.walls.create(-20, j, 'wallTile');
             this.walls.create(this.data.width * CFG.TILE_SIZE, j, 'wallTile');
         }
+
+        this.game.physics.arcade.enable(this.walls);
+        this.walls.enableBody = true;
+        this.walls.forEach((s: Phaser.Sprite) => {
+            s.body.immovable = true;
+        }, this)
     }
 
     buildLevelObjects () {
