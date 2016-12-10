@@ -16,11 +16,11 @@ export class SplashState extends Phaser.State {
     //
     // load your assets
     //
-    this.load.image('mushroom', 'assets/images/mushroom2.png')
+    this.load.spritesheet('newGameButton', 'assets/images/ui/new-game-button.png', 270, 80);
   }
 
   create () {
-    this.game.state.start('Game')
+    this.game.state.start('Menu')
   }
 
 }
