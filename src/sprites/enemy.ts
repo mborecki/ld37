@@ -21,7 +21,7 @@ export default class Enemy extends Phaser.Sprite {
     }
 
     update() {
-        this.damage(0.3);
+        this.damage(0.1);
 
         if (this.alive && this.health < this.maxHealth) {
             if (!this.healthBar) {

@@ -3,8 +3,7 @@ import LevelData from '../types/level-data';
 import CFG from '../config';
 import Player from '../sprites/player';
 import AI from '../ai/ai';
-
-import StupidElf from '../sprites/enemies/stupid-elf';
+import Spawner from '../ai/enemy-spawner';
 
 enum ControlState {
     NONE,
@@ -18,6 +17,10 @@ export class GameLevelState extends Phaser.State {
     castle: Phaser.Sprite;
     player: Player;
     objects: Phaser.Group;
+
+    spawners: Spawner[] = [];
+    enemies: Phaser.Group;
+
 
     controlState: ControlState = ControlState.NONE;
 
@@ -41,6 +44,10 @@ export class GameLevelState extends Phaser.State {
 
         this.game.physics.arcade.collide(this.player, this.objects);
         this.game.physics.arcade.collide(this.player, this.walls);
+
+        this.spawners.forEach((s) => {
+            s.update();
+        })
 
         this.readInput();
     }
@@ -125,7 +132,18 @@ export class GameLevelState extends Phaser.State {
         AI.setCastle([this.data.castle.x, this.data.castle.y])
     }
 
-    placeSpawns () {console.error('TODO!')}
+    placeSpawns () {
+        this.enemies = this.game.add.group();
+
+        this.data.spawns.forEach((s) => {
+            this.addSpawn(s.x * CFG.TILE_SIZE, s.y * CFG.TILE_SIZE);
+        })
+    }
+
+    addSpawn (x: number, y: number) {
+        let spawn = new Spawner(this.game, this.enemies, x ,y);
+        this.spawners.push(spawn);
+    }
 
     startLevel () {
         this.controlState = ControlState.PLAYER;
@@ -164,15 +182,7 @@ export class GameLevelState extends Phaser.State {
     }
 
     addDebugElf() {
-        let elf = new StupidElf({
-            game: this.game,
-            x: 19 * CFG.TILE_SIZE,
-            y: 9 * CFG.TILE_SIZE
-        });
 
-        this.game.physics.arcade.enable(elf);
-
-        this.game.add.existing(elf);
     }
 
 }
