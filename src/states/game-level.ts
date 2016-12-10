@@ -27,12 +27,17 @@ export class GameLevelState extends Phaser.State {
     create () {
         console.log('Level Data', this.data);
 
+        this.game.physics.startSystem(Phaser.Physics.ARCADE);
+
         this.buildLevel();
     }
 
     render () {}
 
     update () {
+
+        this.game.physics.arcade.collide(this.player, this.objects);
+
         this.readInput();
     }
 
@@ -77,10 +82,16 @@ export class GameLevelState extends Phaser.State {
         this.data.objects.forEach((o) => {
             switch (o.type) {
                 case 'block':
-                    this.objects.create(o.x * CFG.TILE_SIZE, o.y * CFG.TILE_SIZE, 'block');
+                    let s = this.objects.create(o.x * CFG.TILE_SIZE, o.y * CFG.TILE_SIZE, 'block');
+                    this.game.physics.arcade.enable(s);
+                    s.body.enable = true;
+                    s.body.immovable = true;
+
+
                     break;
             }
         });
+
     }
 
     placePlayer () {
@@ -91,6 +102,11 @@ export class GameLevelState extends Phaser.State {
         });
 
         this.game.add.existing(this.player);
+
+        this.game.physics.arcade.enable(this.player);
+
+        this.player.body.collideWorldBounds = true;
+
     }
 
     placeCastle () {
@@ -113,21 +129,26 @@ export class GameLevelState extends Phaser.State {
     readInputPlayerState () {
         let cursors = this.game.input.keyboard.createCursorKeys();
 
+        let moveVector  : [number, number] = [0, 0]
+
         if (cursors.down.isDown) {
-            this.player.move(0, 1 * CFG.PLAYER_SPEED * this.time.elapsed / 1000);
+            moveVector[1] += 1;
         }
 
         if (cursors.up.isDown) {
-            this.player.move(0, -1 * CFG.PLAYER_SPEED * this.time.elapsed / 1000);
+            moveVector[1] += -1;
         }
 
         if (cursors.left.isDown) {
-            this.player.move(-1 * CFG.PLAYER_SPEED * this.time.elapsed / 1000, 0);
+            moveVector[0] += -1;
         }
 
         if (cursors.right.isDown) {
-            this.player.move(1 * CFG.PLAYER_SPEED * this.time.elapsed / 1000, 0);
+            moveVector[0] += 1;
         }
+
+        // this.game.physics.arcade.moveToXY(this.player, this.player.x + moveVector[0], this.player.y + moveVector[1]);
+        this.player.move(moveVector);
     }
 
 }

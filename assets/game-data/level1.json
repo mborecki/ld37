@@ -3,8 +3,8 @@
     "width": 20,
     "height": 10,
     "playerStart": {
-        "x": 1,
-        "y": 1
+        "x": 0,
+        "y": 0
     },
     "castle": {
         "x": 10,
@@ -20,6 +20,11 @@
         {
             "type": "block",
             "x": 5,
+            "y": 5
+        },
+        {
+            "type": "block",
+            "x": 0,
             "y": 5
         }
     ]
