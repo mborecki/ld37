@@ -21,7 +21,7 @@ export default class Spawner {
     }
 
     update () {
-        this.value += this.game.time.elapsed / 1000;
+        this.value += this.game.time.elapsedMS / 1000;
 
         if (this.value > 5) {
             this.spawnElf();

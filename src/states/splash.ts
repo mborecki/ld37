@@ -36,6 +36,7 @@ export class SplashState extends Phaser.State {
 
     // PLAYER ASSETS
     this.load.spritesheet('player', 'assets/images/level/player.png', CFG.TILE_SIZE, CFG.TILE_SIZE);
+    this.load.spritesheet('stick', 'assets/images/weapons/stick', 5, 50);
 
     // ENEMIES ASSETS
     this.load.spritesheet('elf', 'assets/images/level/elf.png', 30, 30);

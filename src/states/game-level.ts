@@ -4,6 +4,7 @@ import CFG from '../config';
 import Player from '../sprites/player';
 import AI from '../ai/ai';
 import Spawner from '../ai/enemy-spawner';
+import Wearpon from '../types/wearpon';
 
 enum ControlState {
     NONE,
@@ -17,9 +18,12 @@ export class GameLevelState extends Phaser.State {
     castle: Phaser.Sprite;
     player: Player;
     objects: Phaser.Group;
+    wearpons: Phaser.Group;
 
     spawners: Spawner[] = [];
     enemies: Phaser.Group;
+
+    equipment = Wearpon[];
 
 
     controlState: ControlState = ControlState.NONE;
@@ -59,6 +63,7 @@ export class GameLevelState extends Phaser.State {
         this.placePlayer();
         this.placeCastle();
         this.placeSpawns();
+        this.buildWearpons();
 
         this.addDebugElf();
 
@@ -140,6 +145,10 @@ export class GameLevelState extends Phaser.State {
         })
     }
 
+    buildWearpons () {
+        this.equipment.stick.sprite = new
+    }
+
     addSpawn (x: number, y: number) {
         let spawn = new Spawner(this.game, this.enemies, x ,y);
         this.spawners.push(spawn);
@@ -157,28 +166,34 @@ export class GameLevelState extends Phaser.State {
     }
 
     readInputPlayerState () {
-        let cursors = this.game.input.keyboard.createCursorKeys();
 
         let moveVector  : [number, number] = [0, 0]
 
-        if (cursors.down.isDown) {
+        if (this.game.input.keyboard.isDown(Phaser.KeyCode.S)) {
             moveVector[1] += 1;
         }
 
-        if (cursors.up.isDown) {
+        if (this.game.input.keyboard.isDown(Phaser.KeyCode.W)) {
             moveVector[1] += -1;
         }
 
-        if (cursors.left.isDown) {
+        if (this.game.input.keyboard.isDown(Phaser.KeyCode.A)) {
             moveVector[0] += -1;
         }
 
-        if (cursors.right.isDown) {
+        if (this.game.input.keyboard.isDown(Phaser.KeyCode.D)) {
             moveVector[0] += 1;
         }
 
-        // this.game.physics.arcade.moveToXY(this.player, this.player.x + moveVector[0], this.player.y + moveVector[1]);
         this.player.move(moveVector);
+
+        if (this.game.input.keyboard.isDown(Phaser.KeyCode.ONE)) {
+            if (this.equipment.stick.avaible) {
+                this.player.equip(this.equipment.stick);
+            }
+        }
+
+        // this.game.physics.arcade.moveToXY(this.player, this.player.x + moveVector[0], this.player.y + moveVector[1]);
     }
 
     addDebugElf() {
